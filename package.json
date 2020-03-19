@@ -1,0 +1,29 @@
+{
+  "name": "calendar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "^7.8.7",
+    "@zeit/next-css": "^1.0.1",
+    "express": "^4.17.1",
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^9.3.1",
+    "next-compose-plugins": "^2.2.0",
+    "react": "^16.13.0",
+    "react-calendar": "^3.0.0",
+    "react-dom": "^16.13.0",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "redux-saga": "^1.1.3"
+  }
+}
