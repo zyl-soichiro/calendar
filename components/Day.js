@@ -40,13 +40,17 @@ export function reducer(state = initialState, action) {
 // ---- Component ----
 
 
-const Header = ({  }) => {
+const Day = ({  }) => {
     return (
         <div className="day">
             <style jsx global>{`
-                
+                .day{
+                    width: 500px;
+                    height: 400px;
+                    background-color: blue;
+                }
             `}</style>
-            
+            aaaaaaaaaaa
         </div>
     )
 }
