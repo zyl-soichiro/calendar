@@ -56,7 +56,8 @@ export default class Main extends React.Component {
     calendarWeekends: true,
     calendarEvents: [
       // initial event data
-      { title: "Event Now", start: new Date() }
+      { title: "Event Now", start: new Date() },
+      { title: "Event Nowaa", date: "2020-04-11" }
     ]
   };
 

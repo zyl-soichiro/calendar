@@ -20,9 +20,7 @@ export const types = {
 // ---- action ----- 
 
 export const actions = {
-    changeUniverse(event) {
-        return { type: types.CHANGE_UNIVERSE, payload: event.target.value }
-    }
+    
 }
 
 
