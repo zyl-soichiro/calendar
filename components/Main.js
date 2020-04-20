@@ -1,22 +1,29 @@
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Calendar from 'react-calendar';
+import React from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
+
+
+// must manually import the stylesheets for each plugin
+import "@fullcalendar/core/main.css";
+import "@fullcalendar/daygrid/main.css";
+import "@fullcalendar/timegrid/main.css";
+
 // ----- initial state --- 
 
 export const initialState = {
-    date: new Date(2020, 2, 19),
-    days: {
-        20200314: { text: 'バシャログ執筆' },
-        20200317: { text: 'バシャログ出稿' }
-    }
+    // date: "2020年3月"
 };
 
 // ---- type ----- 
 
 export const types = {
     // CHANGE_UNIVERSE: 'CHANGE_UNIVERSE',
-    CHANGE_CONTENT: 'CHANGE_CONTENT'
+    
 };
 
 
@@ -24,7 +31,7 @@ export const types = {
 // ---- action ----- 
 
 export const actions = {
-
+    
 }
 
 
@@ -36,71 +43,81 @@ export function reducer(state = initialState, action) {
     switch (action.type) {
         // case types.CHANGE_UNIVERSE:
         //     return { ...state, universe: payload }
-
+        
         default:
             return state
     }
 }
 
+export default class Main extends React.Component {
+  calendarComponentRef = React.createRef();
 
+  state = {
+    calendarWeekends: true,
+    calendarEvents: [
+      // initial event data
+      { title: "Event Now", start: new Date() }
+    ]
+  };
 
-
-// ---- Component ----
-// function getFormatDate(func) {
-//     return `${func.getFullYear()}${('0' + (func.getMonth() + 1)).slice(-2)}${('0' + func.getDate()).slice(-2)}`;
-//   }
-
-const Main = ({ date, days }) => {
-
-    // function getTileContent({ func }) {
-    //     const day = getFormatDate(new Date(date));
-    //     console.log(date)
-    //     console.log(days)
-    //     console.log(func)
-    //     return (
-    //       <p>
-    //         <br />
-    //         {(days[day] && days[day].text) ?
-    //           days[day].text : ' '
-    //         }
-    //       </p>
-    //     );
-    //   }
-
-
-
-    /* tileContent　が謎！！！！！！！！！１ */
+  render() {
     return (
-        <div className="main">
-            <style jsx global>{`
-                .main {
-                    top:0;
-                    left:0;
-                    margin: 0;
-                    width: 360px;
-                    height: 36px;
-                    display: flex;
-                    background: #EFEFEF;
-                }
-                .aa {
-                    margin: auto;
-                }
-            `}</style>
-            <div className="aa">aa</div>
-            <Calendar
-                locale="ja-JP"
-                calendarType="US"
-                // value={date}
-                // tileContent={getTileContent}
-            />
+      <div className="demo-app">
+        <div className="demo-app-top">
+          <button onClick={this.toggleWeekends}>toggle weekends</button>&nbsp;
+          <button onClick={this.gotoPast}>go to a date in the past</button>
+          &nbsp; (also, click a date/time to add an event)
         </div>
-    )
+        <div className="demo-app-calendar">
+          <FullCalendar
+            defaultView="dayGridMonth"
+            header={{
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
+            }}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            ref={this.calendarComponentRef}
+            weekends={this.state.calendarWeekends}
+            events={this.state.calendarEvents}
+            dateClick={this.handleDateClick}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  toggleWeekends = () => {
+    this.setState({
+      // update a property
+      calendarWeekends: !this.state.calendarWeekends
+    });
+  };
+
+  gotoPast = () => {
+    let calendarApi = this.calendarComponentRef.current.getApi();
+    calendarApi.gotoDate("2000-01-01"); // call a method on the Calendar object
+  };
+
+  handleDateClick = arg => {
+    if (confirm("Would you like to add an event to " + arg.dateStr + " ?")) {
+      this.setState({
+        // add new event data
+        calendarEvents: this.state.calendarEvents.concat({
+          // creates a new array
+          title: "New Event",
+          start: arg.date,
+          allDay: arg.allDay
+        })
+      });
+    }
+  };
 }
 
 
+
 const mapStateToProps = (state) => ({
-    date: state.main.date,
-    days: state.main.days
+    date: state.main.date
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -109,4 +126,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const view = connect(mapStateToProps, mapDispatchToProps)(Main)
 export { view }
+
+
+
 

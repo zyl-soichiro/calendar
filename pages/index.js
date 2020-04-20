@@ -1,22 +1,30 @@
 import "@babel/polyfill"
 import { Provider } from 'react-redux'
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
+import dynamic from 'next/dynamic'
 import createSagaMiddleware from 'redux-saga'
 import fetch from 'isomorphic-unfetch'
 import * as HeaderComponent from '../components/Header'
-import * as MainComponent from '../components/Main'
+// import * as MainComponent from '../components/Main'
 
 
 // import DividendsSaga from '../saga'
 
 const initialState = {
     header: HeaderComponent.initialState,
-    main: MainComponent.initialState
+    // main: MainComponent.initialState
 }
 const rootReducer = combineReducers({
     header: HeaderComponent.reducer,
-    main: MainComponent.reducer
+    // main: MainComponent.reducer
 })
+
+const DynamicCalendar = dynamic(
+    () => import('../components/Main'),
+    {
+        ssr: false
+    }
+);
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -34,7 +42,7 @@ const Index = () => (
     `}</style>
     <Provider store={store}>
         <HeaderComponent.view />
-        <MainComponent.view />
+        <DynamicCalendar/>
     </Provider>
 </div>
 )
