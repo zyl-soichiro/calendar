@@ -15,7 +15,8 @@ const DynamicCalendar = dynamic(
 // ----- initial state --- 
 
 export const initialState = {
-    CalendarState: "month",
+    calendarState: "month",
+    date: "",
     calendarWeekends: true,
     calendarEvents: [
       // initial event data
@@ -46,7 +47,7 @@ export function reducer(state = initialState, action) {
     const payload = action.payload;
     switch (action.type) {
         case types.CHANGE_CALENDAR_STATE:
-            return { ...state, CalendarState: payload }
+            return { ...state, calendarState: payload.calendarState , date: payload.date }
         
         default:
             return state
@@ -59,20 +60,20 @@ export function reducer(state = initialState, action) {
 // ---- Component ----
 
 
-const Main = ({ CalendarState }) => {
+const Main = ({ calendarState }) => {
     return (
         <div className="">
             <style jsx global>{`
                
             `}</style>
-        { CalendarState == "month" ? <DynamicCalendar/> : <DayComponent.view />}
+        { calendarState == "month" ? <DynamicCalendar/> : <DayComponent.view />}
         </div>
     )
 }
 
 
 const mapStateToProps = (state) => ({
-    CalendarState: state.main.CalendarState
+    calendarState: state.main.calendarState
 })
 
 const mapDispatchToProps = (dispatch) => ({

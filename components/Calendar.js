@@ -32,8 +32,8 @@ export const types = {
 // ---- action ----- 
 
 export const actions = {
-  ChangeCalendarState(value){
-    return { type: MainComponent.types.CHANGE_CALENDAR_STATE, payload: value }
+  ChangeCalendarState(state,date){
+    return { type: MainComponent.types.CHANGE_CALENDAR_STATE, payload: {calendarState: state , date: date }}
   }
 }
 
@@ -66,7 +66,7 @@ const Calendar = ({ actions, calendarWeekends, calendarEvents }) => {
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           weekends={calendarWeekends}
           events={calendarEvents}
-          dateClick={() => actions.ChangeCalendarState("day")}
+          dateClick={(arg) => actions.ChangeCalendarState("day",arg.dateStr)}
         />
       </div>
     </div>

@@ -18,8 +18,8 @@ export const types = {
 // ---- action ----- 
 
 export const actions = {
-    ChangeCalendarState(value) {
-        return { type: MainComponent.types.CHANGE_CALENDAR_STATE, payload: value }
+    ChangeCalendarState(state) {
+        return { type: MainComponent.types.CHANGE_CALENDAR_STATE, payload: {calendarState: state , date: "" } }
     }
 }
 
@@ -42,7 +42,7 @@ export function reducer(state = initialState, action) {
 // ---- Component ----
 
 
-const Day = ({ actions }) => {
+const Day = ({ actions, date }) => {
     return (
         <div className="day">
             <style jsx global>{`
@@ -52,7 +52,7 @@ const Day = ({ actions }) => {
                     background-color: blue;
                 }
             `}</style>
-            aaaaaaaaaaa
+            {date}
             <button onClick={() => actions.ChangeCalendarState("month")}>back</button>
         </div>
     )
@@ -60,6 +60,7 @@ const Day = ({ actions }) => {
 
 
 const mapStateToProps = (state) => ({
+    date: state.main.date
 })
 
 const mapDispatchToProps = (dispatch) => ({
