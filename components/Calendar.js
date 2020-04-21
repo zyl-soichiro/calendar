@@ -14,19 +14,6 @@ import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 
-// ----- initial state --- 
-
-export const initialState = {
-  // date: "2020年3月"
-};
-
-// ---- type ----- 
-
-export const types = {
-  // CHANGE_UNIVERSE: 'CHANGE_UNIVERSE',
-
-};
-
 
 
 // ---- action ----- 

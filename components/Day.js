@@ -2,18 +2,6 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as MainComponent from '../components/Main'
-// ----- initial state --- 
-
-export const initialState = {
-};
-
-// ---- type ----- 
-
-export const types = {
-
-};
-
-
 
 // ---- action ----- 
 
