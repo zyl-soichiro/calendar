@@ -61,7 +61,7 @@ const Calendar = ({ actions, calendarWeekends, calendarEvents }) => {
           header={{
             left: "prev,next today",
             center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
+            right: ""
           }}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           weekends={calendarWeekends}
