@@ -15,13 +15,19 @@ const DynamicCalendar = dynamic(
 // ----- initial state --- 
 
 export const initialState = {
-    CalendarState: "month"
+    CalendarState: "month",
+    calendarWeekends: true,
+    calendarEvents: [
+      // initial event data
+      { title: "Event Now", start: new Date() },
+      { title: "Event Nowaa", date: "2020-04-11" }
+    ]
 };
 
 // ---- type ----- 
 
 export const types = {
-    
+    CHANGE_CALENDAR_STATE: 'CHANGE_CALENDAR_STATE'
 };
 
 
@@ -39,8 +45,8 @@ export const actions = {
 export function reducer(state = initialState, action) {
     const payload = action.payload;
     switch (action.type) {
-        // case types.CHANGE_UNIVERSE:
-        //     return { ...state, universe: payload }
+        case types.CHANGE_CALENDAR_STATE:
+            return { ...state, CalendarState: payload }
         
         default:
             return state

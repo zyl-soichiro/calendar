@@ -7,7 +7,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
-
+import * as MainComponent from './Main'
 
 // must manually import the stylesheets for each plugin
 import "@fullcalendar/core/main.css";
@@ -17,14 +17,14 @@ import "@fullcalendar/timegrid/main.css";
 // ----- initial state --- 
 
 export const initialState = {
-    // date: "2020年3月"
+  // date: "2020年3月"
 };
 
 // ---- type ----- 
 
 export const types = {
-    // CHANGE_UNIVERSE: 'CHANGE_UNIVERSE',
-    
+  // CHANGE_UNIVERSE: 'CHANGE_UNIVERSE',
+
 };
 
 
@@ -32,7 +32,9 @@ export const types = {
 // ---- action ----- 
 
 export const actions = {
-    
+  ChangeCalendarState(value){
+    return { type: MainComponent.types.CHANGE_CALENDAR_STATE, payload: value }
+  }
 }
 
 
@@ -40,77 +42,50 @@ export const actions = {
 // ---- reducer ----- 
 
 export function reducer(state = initialState, action) {
-    const payload = action.payload;
-    switch (action.type) {
-        // case types.CHANGE_UNIVERSE:
-        //     return { ...state, universe: payload }
-        
-        default:
-            return state
-    }
+  const payload = action.payload;
+  switch (action.type) {
+    // case types.CHANGE_UNIVERSE:
+    //     return { ...state, universe: payload }
+
+    default:
+      return state
+  }
 }
 
-export default class Main extends Component {
-  calendarComponentRef = React.createRef();
-
-  state = {
-    calendarWeekends: true,
-    calendarEvents: [
-      // initial event data
-      { title: "Event Now", start: new Date() },
-      { title: "Event Nowaa", date: "2020-04-11" }
-    ]
-  };
-
-  render() {
-    return (
-      <div className="demo-app">
-        <div className="demo-app-calendar">
-          <FullCalendar
-            defaultView="dayGridMonth"
-            header={{
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
-            }}
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            ref={this.calendarComponentRef}
-            weekends={this.state.calendarWeekends}
-            events={this.state.calendarEvents}
-            dateClick={this.handleDateClick}
-          />
-        </div>
+const Calendar = ({ actions, calendarWeekends, calendarEvents }) => {
+  return (
+    <div className="demo-app">
+      <div className="demo-app-calendar">
+        <FullCalendar
+          defaultView="dayGridMonth"
+          header={{
+            left: "prev,next today",
+            center: "title",
+            right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
+          }}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          weekends={calendarWeekends}
+          events={calendarEvents}
+          dateClick={() => actions.ChangeCalendarState("day")}
+        />
       </div>
-    );
-  }
-
-  handleDateClick = arg => {
-    if (confirm("Would you like to add an event to " + arg.dateStr + " ?")) {
-      this.setState({
-        // add new event data
-        calendarEvents: this.state.calendarEvents.concat({
-          // creates a new array
-          title: "New Event",
-          start: arg.date,
-          allDay: arg.allDay
-        })
-      });
-    }
-  };
+    </div>
+  );
 }
 
 
 
 const mapStateToProps = (state) => ({
-    date: state.main.date
+  calendarWeekends: state.main.calendarWeekends,
+  calendarEvents: state.main.calendarEvents
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators(actions, dispatch),
+  actions: bindActionCreators(actions, dispatch),
 })
 
-const view = connect(mapStateToProps, mapDispatchToProps)(Main)
-export { view }
+const view = connect(mapStateToProps, mapDispatchToProps)(Calendar)
+export default view
 
 
 

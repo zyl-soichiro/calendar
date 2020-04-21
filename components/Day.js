@@ -1,7 +1,7 @@
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-
+import * as MainComponent from '../components/Main'
 // ----- initial state --- 
 
 export const initialState = {
@@ -10,7 +10,7 @@ export const initialState = {
 // ---- type ----- 
 
 export const types = {
-    
+
 };
 
 
@@ -18,7 +18,9 @@ export const types = {
 // ---- action ----- 
 
 export const actions = {
-    
+    ChangeCalendarState(value) {
+        return { type: MainComponent.types.CHANGE_CALENDAR_STATE, payload: value }
+    }
 }
 
 
@@ -28,7 +30,7 @@ export const actions = {
 export function reducer(state = initialState, action) {
     const payload = action.payload;
     switch (action.type) {
-        
+
         default:
             return state
     }
@@ -40,7 +42,7 @@ export function reducer(state = initialState, action) {
 // ---- Component ----
 
 
-const Day = ({  }) => {
+const Day = ({ actions }) => {
     return (
         <div className="day">
             <style jsx global>{`
@@ -51,6 +53,7 @@ const Day = ({  }) => {
                 }
             `}</style>
             aaaaaaaaaaa
+            <button onClick={() => actions.ChangeCalendarState("month")}>back</button>
         </div>
     )
 }
